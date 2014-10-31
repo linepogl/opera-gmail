@@ -7,5 +7,5 @@
 ,"icons" : {"16": "icon-16.png","48": "icon-48.png","64": "icon-64.png","128": "icon-128.png"}
 ,"browser_action": { "default_icon": "icon-inactive.png", "default_title": "Gmail" }
 ,"web_accessible_resources" : ["icon-128.png","icon-16.png","icon-48.png","icon-active.png","icon-inactive.png","licence.txt"]
-,"permissions" : ["tabs","notifications","*://mail.google.com/"]
+,"permissions" : ["tabs","notifications","https://mail.google.com/"]
 }
