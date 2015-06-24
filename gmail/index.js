@@ -4,15 +4,14 @@ button.onClicked.addListener(function(){
 	chrome.tabs.create({url:'https://mail.google.com/'});
 });
 
-
+var timeout = null;
 
 var Failure = function(error) {
+	if (timeout !== null) return;
 	button.setBadgeText({text:" ? "});
 	button.setIcon({path:"icon-inactive.png?2"});
 	button.setTitle({title:'Gmail\n\n' + error});
-	setTimeout(function() {
-		Update();
-	}, 10000);
+	timeout = setTimeout(function() { Update(); }, 30000);
 };
 
 var Read = function(xml) {
@@ -89,18 +88,18 @@ var Notify = function(entries) {
 
 
 var Success = function(feedData) {
+	if (timeout !== null) return;
 	var feed = Read(feedData);
 	Notify(feed.entries);
 	button.setIcon({path: "icon-active.png?2"});
 	button.setBadgeText({text:feed.count===0?'':''+feed.count});
 	button.setTitle({title:feed.title+'\n\n'+Summarise(feed.entries)});
-	setTimeout(function() {
-		Update();
-	}, 15000);
+	timeout = setTimeout(function() { Update(); }, 30000);
 };
 
 
 var Update = function() {
+	if (timeout !== null) { clearTimeout(timeout); timeout = null; }
 	var httpRequest = new XMLHttpRequest();
 	var requestTimeout = window.setTimeout(function() { httpRequest.abort(); Failure('Error communicating with the server. Request timed out.'); }, 30000);
 	httpRequest.onerror = function() { Failure('Error communicating with the server.'); };
