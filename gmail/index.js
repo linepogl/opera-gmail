@@ -1,7 +1,13 @@
 var button = chrome.browserAction;
 
 button.onClicked.addListener(function(){
-	chrome.tabs.create({url:'https://mail.google.com/'});
+	chrome.tabs.query({currentWindow:true, title:'Inbox*@gmail.com*'}, function(tabs) {
+		if (tabs.length <= 0) {
+			chrome.tabs.create({url:'https://mail.google.com/'});
+		} else {
+			chrome.tabs.highlight({tabs:tabs[0].index});
+		}
+	});
 });
 
 var timeout = null;
