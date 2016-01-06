@@ -1,7 +1,7 @@
 var button = chrome.browserAction;
 
 button.onClicked.addListener(function(){
-	chrome.tabs.query({currentWindow:true, title:'Inbox*@gmail.com*'}, function(tabs) {
+	chrome.tabs.query({currentWindow:true, url:'*://mail.google.com/*'}, function(tabs) {
 		if (tabs.length <= 0) {
 			chrome.tabs.create({url:'https://mail.google.com/'});
 		} else {
